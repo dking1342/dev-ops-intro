@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My App</title>
+  </head>
+  <body>
+    <main>
+      <section>
+        <a href="/">Home</a>
+        <h1>User Profile</h1>
+        <div class="user_profile">
+          <ul>
+            <li>Name: <span id="user_name"></span></li>
+            <li>Email: <span id="user_email"></span></li>
+            <li>Interests: <span id="user_interests"></span></li>
+          </ul>
+          <button id="delete_user">Delete</button>
+        </div>
+  
+      </section>
+      <section>
+        <div id="user_container">
+          <label for="">Choose User:</label>
+          <select name="user" id="user_select">
+            <option value="" selected disabled></option>
+
+          </select>
+        </div>
+        <div>
+          <label for="">Choose Form Type:</label>
+          <select name="form" id="form_select">
+            <option value="" selected disabled></option>
+          </select>
+        </div>
+        <form>
+          <div>
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name">
+          </div>
+          <div>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email">
+          </div>
+          <div>
+            <label for="interests">Interests</label>
+            <textarea name="interests" id="interests" cols="30" rows="10"></textarea>
+          </div>
+          <div>
+            <input type="submit" value="Submit" id="submit">
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
