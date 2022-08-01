@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const {getAll, createOne, getOne, updateOne, deleteOne} = require("./config/db");
+const {getAll, createOne, getOne, updateOne, deleteOne} = require("./controllers/users");
 
 const app = express();
 const PORT = 5001;
@@ -8,19 +8,10 @@ const PORT = 5001;
 app.use(cors());
 app.use(express.json())
 
-let users = [
-  {
-    "id":1,
-    name:"jack",
-    email:"jack@example.com",
-    interests:["coding", "walking"]
-  }
-]
-
+// routes
 app.get("/", async (_,res) => {
   const { users, error } = await getAll();
   res.json({"data":users,"error":error});
-
 });
 app.get("/users/:id",async (req,res)=>{
   let {user, error } = await getOne(req.params.id);

@@ -7,7 +7,7 @@ const connection = async () => {
   const client = new MongoClient(url);
   await client.connect();
   const db = client.db(process.env.DB_NAME);
-  const collection = db.collection('users');
+  const collection = db.collection(process.env.DB_COLLECTION);
 
   return {
     client,
@@ -119,3 +119,4 @@ module.exports = {
   updateOne,
   deleteOne
 }
+
