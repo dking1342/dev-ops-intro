@@ -5,29 +5,25 @@ const {getAll, createOne, getOne, updateOne, deleteOne} = require("./controllers
 const app = express();
 const PORT = 5001;
 
+
 app.use(cors());
 app.use(express.json())
 
 // routes
 app.get("/", async (_,res) => {
-  const { users, error } = await getAll();
-  res.json({"data":users,"error":error});
+  getAll(res);
 });
 app.get("/users/:id",async (req,res)=>{
-  let {user, error } = await getOne(req.params.id);
-  return res.json({"data":user,"error":error});
+  getOne(req.params.id,res);
 })
 app.post("/user/create",async (req,res) => {
-  const { user, error } = await createOne(req.body);
-  res.json({"data":user,"error":error});
+  createOne(req.body,res);
 });
 app.put("/user/update/:id",async (req,res) => {
-  const { user, error } = await updateOne(req.params.id, req.body);
-  res.json({"data":[user.value],"error":error});
+  updateOne(req.params.id,req.body,res);
 });
 app.delete("/user/delete/:id",async (req,res)=>{
-  const { user, error } = await deleteOne(req.params.id);
-  return res.json({"data":user.value,"error":error});
+  deleteOne(req.params.id,res);
 })
 
 

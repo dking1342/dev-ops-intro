@@ -2,114 +2,78 @@ require('dotenv').config()
 const { MongoClient, ObjectId } = require('mongodb');
 
 
-const connection = async () => {
-  const url = `mongodb://localhost:${process.env.DB_PORT}`;
-  const client = new MongoClient(url);
-  await client.connect();
-  const db = client.db(process.env.DB_NAME);
-  const collection = db.collection(process.env.DB_COLLECTION);
-
-  return {
-    client,
-    collection
-  }
-}
-
-const getAll = async () => {
-  const { client, collection } = await connection();
-
-  try {
-    return {
-      users: await collection.find({}).toArray(),
-      error: null
-    }
-  } catch (err) {
-    return {
-      users: null,
-      error:err.message
-    }
-  } finally {
-    client.close();  
-  }
-}
-
-const getOne = async (id) => {
-  const { client, collection } = await connection();
-  
-  try {
-    const obj_id = new ObjectId(id);
-    return {
-      user: await collection.find({_id:obj_id}).toArray(),
-      error: null
-    }
-  } catch (err) {
-    return {
-      user: null,
-      error:err.message
-    }
-  } finally {
-    client.close();  
-  }
-}
-
-const createOne = async (user) => {
-  const { client, collection } = await connection();
-  try {
-    const response = await collection.insertOne(user);
-    let id = null;
-    if(response.acknowledged){
-      id = response.insertedId.toString();
-    }
-    return {
-      user:id,
-      error:null
-    }
-  } catch (err) {
-    return {
-      user:null,
-      error:err.message
-    }    
-  } finally {
+const url = `mongodb://admin:pass@127.0.0.1:27017/`;
+const getAll = (res) => {
+  MongoClient.connect(url, async function(err,client){
+    if(err) throw err;
+    const db = client.db(process.env.DB_NAME);
+    let results = await db.collection(process.env.DB_COLLECTION).find({}).toArray();
     client.close();
-  }
+    res.json({"data":results});
+  })
 }
 
-const updateOne = async (id,user) => {
-  const { client, collection } = await connection();
-  try {
+const getOne = (id, res) => {
+  MongoClient.connect(url, function(err,client){
+    if(err) throw err;
+    const db = client.db(process.env.DB_NAME);
     const obj_id = new ObjectId(id);
-    
-    return {
-      user: await collection.findOneAndUpdate({_id:obj_id},{$set:user},{returnDocument:'after'}),
-      error:null
-    }
-    
-  } catch (err) {
-    return {
-      user: null,
-      error:err.message
-    }
-  } finally {
-    client.close();
-  }
+    const query = { _id: obj_id };
+    db.collection(process.env.DB_COLLECTION).findOne(query,function(err,result){
+      if(err) throw err;
+      client.close();
+      res.json({"data":[result]});
+    })
+  });
 }
 
-const deleteOne = async (id) => {
-  const { client, collection } = await connection();
-  try {
+const createOne = (user,res) => {
+  MongoClient.connect(url, function(err,client){
+    if(err) throw err;
+    const db = client.db(process.env.DB_NAME);
+    db.collection(process.env.DB_COLLECTION).insertOne(user,function(err,result){
+      if(err) throw "error there";
+      let id = null;
+      if(result.acknowledged){
+        id = result.insertedId.toString();
+      }
+      client.close();
+      res.json({"data":id});
+
+    });
+  });
+}
+
+const updateOne = (id,user,res) => {
+  MongoClient.connect(url, async function(err,client){
+    if(err) throw err;
+    const db = client.db(process.env.DB_NAME);
     const obj_id = new ObjectId(id);
-    return {
-      user: await collection.findOneAndDelete({_id:obj_id}),
-      error:null
-    }    
-  } catch (err) {
-    return {
-      user:null,
-      error:err.message
+    try {
+      const result = await db.collection(process.env.DB_COLLECTION).findOneAndUpdate({_id:obj_id},{$set:user},{returnDocument:'after'})
+      client.close();
+      res.json({"data":[result.value]})
+    } catch (error) {
+      client.close();
+      throw error.message      
+    } 
+  });
+}
+
+const deleteOne = async (id,res) => {
+  MongoClient.connect(url, async function(err,client){
+    if(err) throw err;
+    const db = client.db(process.env.DB_NAME);
+    const obj_id = new ObjectId(id);
+    try {
+      const result = await db.collection(process.env.DB_COLLECTION).findOneAndDelete({_id:obj_id});
+      client.close();
+      res.json({"data":result.value})      
+    } catch (error) {
+      client.close();
+      throw error.message;
     }
-  } finally {
-    client.close();
-  }
+  });
 }
 
 module.exports = {
