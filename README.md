@@ -49,6 +49,8 @@ docker pull mongo-express
 ```
 
 ### Docker Network
+![Network](/assets/docker_network.png "Docker Network")
+
 Create a network for Docker using the command
 
 ```
@@ -62,8 +64,8 @@ To run the container we need to use the following command:
 
 ```
 docker run -p 27017:27017 -d \ 
--e MONGO_INITDB_ROOT_USERNAME=kavooce \
--e MONGO_INITDB_ROOT_USERNAME=qweASDzxc321 \
+-e MONGO_INITDB_ROOT_USERNAME=XXXXX \
+-e MONGO_INITDB_ROOT_USERNAME=XXXXX \
 --name mongodb \
 --net mongo-network \
 mongo 
@@ -72,7 +74,7 @@ mongo
 This format can be found in the image page. It will show which flags and other info is needed to run the container. After executing the command it will run and start the container. You can check to see if it is running by using the <code>docker ps</code> or <code>docker logs</code> command.
 
 ### Config nodeJS to Mongo
-
+Set up controllers for each endpoint to connect to the mongodb container. You can do this with MongoClient then connect to the db and perform the required function. You can check the progress using the mongo-express gui or the mongo shell. 
 
 
 
