@@ -79,7 +79,7 @@ Set up controllers for each endpoint to connect to the mongodb container. You ca
 ### Docker Compose
 A structured way to run docker commands in a container. The files used are yaml and the structure is seen below.
 
-![Compose](/assets/Docker_compose.png "Docker Compose")
+![Compose](/assets/docker_compose.png "Docker Compose")
 
 To get the yaml file to work properly you will need to run the following command:
 
