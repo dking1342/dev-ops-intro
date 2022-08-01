@@ -76,5 +76,17 @@ This format can be found in the image page. It will show which flags and other i
 ### Config nodeJS to Mongo
 Set up controllers for each endpoint to connect to the mongodb container. You can do this with MongoClient then connect to the db and perform the required function. You can check the progress using the mongo-express gui or the mongo shell. 
 
+### Docker Compose
+A structured way to run docker commands in a container. The files used are yaml and the structure is seen below.
+
+![Compose](/assets/Docker_compose.png "Docker Compose")
+
+To get the yaml file to work properly you will need to run the following command:
+
+```
+docker-compose -f file.yaml up
+```
+
+The file name will be whatever you saved the yaml file as in your directory. Make sure that no containers are running beforehand so that the new compose command does not conflict with any running containers.
 
 
