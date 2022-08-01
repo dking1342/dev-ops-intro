@@ -30,7 +30,7 @@ const populateUsersList = (users) => {
   if(users.length){
     users.forEach(user => {
       const optionElement = document.createElement("option");
-      optionElement.value = user.id;
+      optionElement.value = user._id;
       optionElement.textContent = user.name;
       userSelect.append(optionElement);
     })
@@ -73,7 +73,7 @@ const toggleDisplay = (hasUserInfo, data=null) => {
     emailInput.textContent = data.email;
     interestsInput.value = data.interests.join(", ");
     interestsInput.textContent = data.interests.join(", ");
-    formState.id = data.id;
+    formState.id = data._id;
   }
 }
 
@@ -96,8 +96,8 @@ const fetchRequest = async (url,method="GET",body=null) => {
   try {
     const response = await fetch(url,options);
     if(response.ok){
-      const {data} = await response.json();
-      return data;
+      const data = await response.json();
+      return data.data;
     } else {
       return null;
     }
@@ -169,12 +169,11 @@ submitBtn.addEventListener("click",async (e) => {
     let id = null;
     if(formType === "create"){
       const data = await fetchRequest(`http://localhost:5001/user/create`,"POST",JSON.stringify(formState));
-      data ? id = data.id : console.error("invalid fetch");
+      data ? getUser(data) : console.error("invalid fetch");
     } else {
       const data = await fetchRequest(`http://localhost:5001/user/update/${formState.id}`,"PUT",JSON.stringify(formState));
-      data ? id = formState.id : console.error("invalid fetch");
+      data ? getUser(data[0]._id) : console.error("invalid fetch");
     } 
-    getUser(id);
   }
 });
 

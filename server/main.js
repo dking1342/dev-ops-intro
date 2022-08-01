@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const {getAll, createOne, getOne, updateOne, deleteOne} = require("./config/db");
 
 const app = express();
 const PORT = 5001;
@@ -16,45 +17,26 @@ let users = [
   }
 ]
 
-app.get("/", (_,res) => {
-  return res.json({"data":users});
-});
+app.get("/", async (_,res) => {
+  const { users, error } = await getAll();
+  res.json({"data":users,"error":error});
 
-app.get("/users/:id",(req,res)=>{
-  const id = Number(req.params.id);
-  let user = users.filter(user=> user.id === id);
-  return res.json({"data":user});
+});
+app.get("/users/:id",async (req,res)=>{
+  let {user, error } = await getOne(req.params.id);
+  return res.json({"data":user,"error":error});
 })
-
-app.post("/user/create",(req,res) => {
-  let user = req.body;
-  user.id = Math.ceil(Math.random() * 10000000);
-  users.push(user);
-
-  res.json({"data":user});
+app.post("/user/create",async (req,res) => {
+  const { user, error } = await createOne(req.body);
+  res.json({"data":user,"error":error});
 });
-app.put("/user/update/:id",(req,res) => {
-  const id = Number(req.params.id);
-  console.log("id",id);
-  users = users
-    .map(user => {
-      if(user.id === id){
-        user = {
-          id,
-          name:req.body.name,
-          email:req.body.email,
-          interests:req.body.interests
-        }
-      }
-      return user;
-    })
-  let user = users.filter(user => user.id === id)
-  res.json({"data":user});
+app.put("/user/update/:id",async (req,res) => {
+  const { user, error } = await updateOne(req.params.id, req.body);
+  res.json({"data":[user.value],"error":error});
 });
-app.delete("/user/delete/:id",(req,res)=>{
-  const id = Number(req.params.id);
-  users = users.filter(user => user.id !== id);
-  return res.json({"data":"user deleted"});
+app.delete("/user/delete/:id",async (req,res)=>{
+  const { user, error } = await deleteOne(req.params.id);
+  return res.json({"data":user.value,"error":error});
 })
 
 
