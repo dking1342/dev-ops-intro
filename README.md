@@ -84,9 +84,31 @@ A structured way to run docker commands in a container. The files used are yaml 
 To get the yaml file to work properly you will need to run the following command:
 
 ```
-docker-compose -f file.yaml up
+docker-compose -f file.yaml up -d
 ```
 
-The file name will be whatever you saved the yaml file as in your directory. Make sure that no containers are running beforehand so that the new compose command does not conflict with any running containers.
+The file name will be whatever you saved the yaml file as in your directory. Make sure that no containers are running beforehand so that the new compose command does not conflict with any running containers. To turn it off then you can write the following command
 
+```
+docker-compose -f file.yaml down
+```
+
+You can check to see if the containers and server are down by writing the command <code>docker network ls</code> and you should see that it is gone.
+
+### Dockerfile
+After you have made an artifact or app then this is the workflow that you will go through to turn it into its own image which can be used as a container.
+
+![Dockerfile1](/assets/dockerfile1.png "Dockerfile workflow")
+
+A docker file is a manifest that details your image that you will make. It is a text file that always goes by the filename Dockerfile. The docker file will cover which image it is from, any environment variables, run commands (linux commands), copy to a location in the image and commands to run as the entry point for the server or when it becomes a container.
+
+![Dockerfile1](/assets/dockerfile2.png "Dockerfile workflow")
+
+After you make the docker file you will need to build it. Use the command below to get it built
+
+```
+docker build -t name:version . 
+```
+
+The command docker build has the flag -t to tell the name then the last part of this command is where it will be stored. This should be the home directory. If not then you will need to specify where it will be in the directory.
 
