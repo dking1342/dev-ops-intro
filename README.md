@@ -110,5 +110,26 @@ After you make the docker file you will need to build it. Use the command below 
 docker build -t name:version . 
 ```
 
-The command docker build has the flag -t to tell the name then the last part of this command is where it will be stored. This should be the home directory. If not then you will need to specify where it will be in the directory.
+The command docker build has the flag -t to tell the name then the last part of this command is where it will be stored. This should be the home directory. If not then you will need to specify where it will be in the directory. When you want to run this new image type the command
+
+```
+docker run app-name:version
+```
+
+Flags can be added to specify the port, etc which has been done previously. If you run the image and something goes wrong then you will need to delete the image and build a new one. To delete an image and the container type the command below then build a new one after the changes have been made. Delete the container first before deleting the image.
+
+```
+docker rm container-id
+docker rmi image-id
+```
+
+Once the container is running then you can look in the container using the command.
+
+```
+docker exec -it container-id /bin/sh
+```
+
+From here you can navigate the folder structure.
+
+
 
