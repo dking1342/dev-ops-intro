@@ -5,3 +5,14 @@ Documentation for the code base can be found <a href="https://www.youtube.com/wa
 
 ## Explanation
 This project goes through a workflow for creating a nodejs artifact then making a docker continer.
+
+## Helpful hints
+#### sync docker to source code on local host but read only
+```
+docker run -p 5001:5001 -d --name node-app -v $(pwd):/app:ro -v /app/node_modules kavooce/node-web-app:1.0
+```
+
+#### kill container in one command
+```
+docker rm node-app -f
+```

@@ -12,6 +12,7 @@ RUN npm install
 
 # Bundle app source
 COPY . .
+ENV PORT 5001
 
-EXPOSE 5001
-CMD [ "node", "index.js" ]
+EXPOSE $PORT
+CMD [ "npm", "run", "dev" ]
