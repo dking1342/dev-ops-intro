@@ -16,3 +16,24 @@ docker run -p 5001:5001 -d --name node-app -v $(pwd):/app:ro -v /app/node_module
 ```
 docker rm node-app -f
 ```
+
+#### set env variables manually
+```
+docker run -p 5001:5001 -d --name node-app -v $(pwd):/app:ro -v /app/node_modules -e PORT=5000 kavooce/node-web-app:1.0
+```
+
+#### set env variables with .env file
+```
+docker run -p 5001:5001 -d --name node-app -v $(pwd):/app:ro -v /app/node_modules --env-file ./.env kavooce/node-web-app:1.0
+```
+
+#### kill container and the volume
+```
+docker rm node-app -fv
+```
+
+#### prune the volumes to remove all volumes
+```
+docker volume prune
+```
+
