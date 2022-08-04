@@ -1,12 +1,23 @@
 import 'dotenv/config'
 import express from "express";
+import cors from "cors";
+import { mongoStartup } from './config/mongodb.js';
+import UserRouter from './routes/usersRoutes.js';
 
-const app = express();
+// variables
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (_,res)=>{
-  res.json({"message":"hello world","error":null})
-});
+// express init and middleware
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+app.use(cors());
 
+// init db
+mongoStartup()
 
+// routes
+app.use("/",UserRouter);
+
+// server init
 app.listen(PORT,()=>console.log(`server listening on port ${PORT}`));

@@ -78,4 +78,11 @@ To get rid of all other volumes then spin up the containers using the docker com
 docker volumes prune
 ```
 
+#### mongo privileges
+To grant privileges to a user that will be logged in you can run this command in mongo
 
+```
+db.grantRolesToUser("admin",[{role:"readWrite",db:"userdb"}])
+```
+
+For more on this go to <a href="https://www.mongodb.com/docs/manual/tutorial/manage-users-and-roles/">this page</a> for more info
