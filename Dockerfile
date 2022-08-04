@@ -6,13 +6,18 @@ WORKDIR /app
 # Install app dependencies
 COPY package*.json ./
 
-RUN npm install
+ARG NODE_ENV
+# RUN npm install --only=production
 # If you are building your code for production
 # RUN npm ci --only=production
+RUN if [ "$NODE_ENV" = "development" ]; \
+      then npm install; \
+      else npm ci --only=production; \
+    fi
 
 # Bundle app source
 COPY . .
 ENV PORT 5001
 
 EXPOSE $PORT
-CMD [ "npm", "run", "dev" ]
+CMD [ "node", "index.js" ]

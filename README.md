@@ -42,3 +42,11 @@ docker volume prune
 docker-compose up -d --build
 docker-compose down -v
 ```
+
+The build flag will rebuild the image in case there have been changes. Otherwise it will take whatever is available or already there excluding any changes.
+
+#### docker compose using multiple files
+```
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+docker-compose down -v
+```
