@@ -37,3 +37,8 @@ docker rm node-app -fv
 docker volume prune
 ```
 
+#### docker compose start or end
+```
+docker-compose up -d --build
+docker-compose down -v
+```
