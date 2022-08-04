@@ -50,3 +50,32 @@ The build flag will rebuild the image in case there have been changes. Otherwise
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 docker-compose down -v
 ```
+
+#### mongo container
+To set the username and password go to the container after spinning it up with docker compose. Then use the exec command to go into the container. Type the command:
+
+```
+mongo -u process.env.MONGO_INITDB_ROOT_USERNAME -p process.env.MONGO_INITDB_ROOT_PASSWORD
+```
+
+#### mongo login using docker exec
+To login using the docker exec command do this:
+
+```
+docker exec -it container-name mongo -u "username" -p "password"
+```
+
+#### mongo keep volumes
+To keep the volumes when you stop a docker container then leave out the -v flag.
+
+```
+docker-compose down -v
+```
+
+To get rid of all other volumes then spin up the containers using the docker compose command then while the volumes are in use then type the command to remove any other volume not being used at that time. You need to make sure that the container is running otherwise it will delete any unused volumes at the time of the command.
+
+```
+docker volumes prune
+```
+
+
