@@ -25,6 +25,11 @@ export const redisStartup = (app) => {
           saveUninitialized: false,
           secret: process.env.REDIS_SECRET,
           resave: false,
+          cookie:{
+            secure:false,
+            httpOnly:true,
+            maxAge: 30000
+          }
         })
       )
     })

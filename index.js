@@ -4,6 +4,7 @@ import cors from "cors";
 import { mongoStartup } from './config/mongodb.js';
 import UserRouter from './routes/usersRoutes.js';
 import { redisStartup } from './config/redis.js';
+import PostRouter from './routes/postRoutes.js';
 
 // variables
 const PORT = process.env.PORT || 5001;
@@ -21,7 +22,8 @@ mongoStartup()
 redisStartup(app);
 
 // routes
-app.use("/",UserRouter);
+app.use("/users",UserRouter);
+app.use("/posts",PostRouter);
 
 // server init
 app.listen(PORT,()=>console.log(`server listening on port ${PORT}`));
