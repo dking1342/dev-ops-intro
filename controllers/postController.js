@@ -1,5 +1,4 @@
 import Post from "../models/Post.js";
-import { authorizeUser } from "../utils/authorizeUser.js";
 
 // route    GET /posts
 // des      Retrieves all posts from db
@@ -49,20 +48,15 @@ export const savePost = async (req,res) => {
 // access   Public
 export const updatePost = async (req, res) => {
   try {
-    const response = await authorizeUser(req);
-    if(response.message){
-      res.status(response.http).json({ success: false, payload: response.message });      
+    const updatedPost = await Post.findOneAndUpdate({ _id: req.params.id }, req.body, {
+      new: true,
+      useFindAndModify: false,
+      runValidators: true,
+    });
+    if (updatedPost) {
+      res.status(201).json({ success: true, payload: updatedPost });
     } else {
-      const updatedPost = await Post.findOneAndUpdate({ _id: req.params.id }, req.body, {
-        new: true,
-        useFindAndModify: false,
-        runValidators: true,
-      });
-      if (updatedPost) {
-        res.status(201).json({ success: true, payload: updatedPost });
-      } else {
-        res.status(400).json({ success: false, payload: "invalid attempt" });
-      }
+      res.status(400).json({ success: false, payload: "invalid attempt" });
     }
   } catch (error) {
     res.status(400).json({ success: false, payload: error.message });
@@ -74,13 +68,8 @@ export const updatePost = async (req, res) => {
 // access   Public
 export const deletePost = async (req, res) => {
   try {
-    const response = await authorizeUser(req);
-    if(response.message){
-      res.status(response.http).json({ success: false, payload: response.message });      
-    } else {
-      const deletedPost = await Post.deleteOne({ _id: req.params.id });
-      res.status(200).json({ success: true, payload: deletedPost });
-    }
+    const deletedPost = await Post.deleteOne({ _id: req.params.id });
+    res.status(200).json({ success: true, payload: deletedPost });
   } catch (error) {
     res.status(400).json({ success: false, payload: error.message });
   }

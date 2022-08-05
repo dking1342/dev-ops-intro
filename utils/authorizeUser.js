@@ -1,31 +1,17 @@
 import Post from "../models/Post.js";
 
-export const authorizeUser = async (req) => {
+export const authorize = async (req,res,next) => {
   const { username } = req.user;
-  let response = {http:null,message:null};
   try {
     const post = await Post.findOne({_id:req.params.id});
     if(!post){
-      reponse = {
-        ...response,
-        http:400,
-        message:"invalid"
-      }
+      return res.status(400).json({success:false,payload:"invalid"});
     }
     if(post.username !== username){
-      response = {
-        ...response,
-        http:401,
-        message:"unauthorized"
-      };
+      return res.status(401).json({success:false,payload:"unauthorized"});
     } 
-    return response;    
+    next();
   } catch (error) {
-    reponse = {
-      ...response,
-      http:400,
-      message:"invalid"
-    };
-    return response;
+    return res.status(400).json({success:false,payload:error.message});
   }
 }
