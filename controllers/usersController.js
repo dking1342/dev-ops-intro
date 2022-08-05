@@ -106,3 +106,15 @@ export const loginUser = async (req, res) => {
   }
 };
 
+// route    GET /users/logout
+// des      Logout the user
+// access   Public
+export const logoutUser = (req,res) => {
+  req.session.destroy((err)=>{
+    if(err){
+      return res.json({success:false,payload:err.message});
+    }
+    res.clearCookie()
+    res.json({success:true,payload:"logged out"});
+  });
+}
