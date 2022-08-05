@@ -19,7 +19,24 @@ app.use(cors());
 mongoStartup()
 
 // init redis
-redisStartup(app);
+let { client, store, session } = redisStartup();
+client.connect()
+  .then(()=> console.log("redis connected"))
+  .catch((err)=>console.log("redis error",err.message));
+
+app.use(
+  session({
+    store: new store({client}),
+    secret: process.env.REDIS_SECRET,
+    saveUninitialized: false,
+    resave: false,
+    cookie:{
+      secure:false,
+      httpOnly:true,
+      maxAge: 3000000,
+    }
+  })
+)
 
 // routes
 app.use("/users",UserRouter);

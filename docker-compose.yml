@@ -23,7 +23,10 @@ services:
     image: redis
     ports:
       - "6379:6379"
+    volumes:
+      - redis-db:/data/db
 
 
 volumes:
   mongo-db:
+  redis-db:

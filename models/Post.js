@@ -9,6 +9,9 @@ const PostSchema = new mongoose.Schema({
     type: String,
     require:[true,"Post must have a body"]
   },
+  username:{
+    type:String
+  }
 },{
   timestamps:true
 })
