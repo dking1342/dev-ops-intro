@@ -86,3 +86,8 @@ db.grantRolesToUser("admin",[{role:"readWrite",db:"userdb"}])
 ```
 
 For more on this go to <a href="https://www.mongodb.com/docs/manual/tutorial/manage-users-and-roles/">this page</a> for more info
+
+#### start one container without other when it depends
+```
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --no-deps node-app
+```

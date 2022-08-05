@@ -3,9 +3,10 @@ import express from "express";
 import cors from "cors";
 import { mongoStartup } from './config/mongodb.js';
 import UserRouter from './routes/usersRoutes.js';
+import { redisStartup } from './config/redis.js';
 
 // variables
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5001;
 
 // express init and middleware
 const app = express();
@@ -15,6 +16,9 @@ app.use(cors());
 
 // init db
 mongoStartup()
+
+// init redis
+redisStartup(app);
 
 // routes
 app.use("/",UserRouter);

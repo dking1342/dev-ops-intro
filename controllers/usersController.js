@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 
 
-// route    GET /
+// route    GET /users
 // des      Retrieves all users from db
 // access   Public
 export const getAllUsers = async (res) => {
@@ -13,7 +13,7 @@ export const getAllUsers = async (res) => {
   }
 }
 
-// route    GET /user/:id
+// route    GET /users/:id
 // des      Retrieves single users from db
 // access   Public
 export const getOneUser = async (id, res) => {
@@ -25,10 +25,10 @@ export const getOneUser = async (id, res) => {
   }
 }
 
-// route    POST /user/create
+// route    POST /users/register
 // des      Saves user to db
 // access   Public
-export const saveUser = async (user,res) => {
+export const registerUser = async (user,res) => {
   try {
     const savedUser = await User.create(user);
     res.status(201).json({success:true, payload:savedUser});
@@ -37,25 +37,57 @@ export const saveUser = async (user,res) => {
   }
 }
 
-// route    PUT /user/update/:id
+// route    PUT /users/update/:id
 // des      Updates user in db
 // access   Public
 export const updateUser = async (id,user,res) => {
   try {
     const updatedUser = await User.findOneAndUpdate({_id:id},user,{new:true,useFindAndModify:false});
-    res.status(201).json({success:true, payload:updatedUser});
+    if(updatedUser){
+      res.status(201).json({success:true, payload:updatedUser});
+    } else {
+      res.status(400).json({success:false, payload: "invalid attempt" })
+    }
   } catch (error) {
     res.status(400).json({success:false, payload: error.message })
   }
 }
 
-// route    DELETE /user/delete/:id
+// route    DELETE /users/delete/:id
 // des      Deletes a user from the db
 // access   Public
 export const deleteUser = async (id,res) => {
   try {
     const deletedUser = await User.deleteOne({_id:id});
     res.status(201).json({success:true, payload:deletedUser});
+  } catch (error) {
+    res.status(400).json({success:false, payload: error.message })
+  }
+}
+
+// route    POST /users/login
+// des      Logs in the user
+// access   Public
+export const loginUser = async (user, res) => {
+  try {
+    const { username, password } = user;
+    // check username
+    User.findOne({"username":username},function (err,result){
+      if(err) throw err;
+      if(result){
+        // check password
+        const isPasswordValid = result.password === password;
+        
+        if(isPasswordValid){
+          // login user
+          res.status(200).json({success:true, payload:"logged in user"});
+        } else {
+          res.status(400).json({success:false, payload: "invalid password" })
+        }
+      } else {
+        res.status(400).json({success:false, payload: "invalid username" })
+      }
+    });
   } catch (error) {
     res.status(400).json({success:false, payload: error.message })
   }

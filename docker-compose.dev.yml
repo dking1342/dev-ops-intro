@@ -7,9 +7,12 @@ services:
         NODE_ENV: development
     volumes:
       - ./:/app:ro
-      - /app/node_modules
+      - modules:/app/node_modules
     env_file:
       - ./.env
     environment:
       - NODE_ENV=development
     command: npm run dev
+
+volumes:
+  modules:

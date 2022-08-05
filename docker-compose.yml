@@ -6,6 +6,8 @@ services:
       - "5001:5001"
     env_file:
       - ./.env
+    depends_on:
+      - mongo
 
   mongo:
     image: mongo 
@@ -16,6 +18,12 @@ services:
       - ./db.env
     volumes:
       - mongo-db:/data/db
+  
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
 
 volumes:
   mongo-db:
