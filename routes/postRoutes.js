@@ -5,7 +5,8 @@ import { protect } from "../utils/sessionAuth.js";
 
 const PostRouter = express.Router();
 
-PostRouter.get("/", protect, getAllPosts);
+PostRouter.get("/", getAllPosts);
+PostRouter.get("/test",(_,res)=>{ res.json({"success":true,"payload":"hello"})})
 PostRouter.get("/:id", protect, getOnePost);
 PostRouter.post("/create", protect, savePost);
 PostRouter.put("/update/:id", protect, authorize, updatePost);

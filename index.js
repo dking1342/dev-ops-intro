@@ -39,8 +39,8 @@ app.use(
 )
 
 // routes
-app.use("/users",UserRouter);
-app.use("/posts",PostRouter);
+app.use("/api/v1/users",UserRouter);
+app.use("/api/v1/posts",PostRouter);
 
 // server init
 app.listen(PORT,()=>console.log(`server listening on port ${PORT}`));

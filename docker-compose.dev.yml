@@ -1,5 +1,9 @@
 version: '3'
 services:
+  web:
+    image: nginx:stable-alpine
+    ports:
+      - "5001:80"
   node-app:
     build: 
       context: .
