@@ -91,3 +91,9 @@ For more on this go to <a href="https://www.mongodb.com/docs/manual/tutorial/man
 ```
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --no-deps node-app
 ```
+
+#### working with nginx
+to set up multiple node-apps use the command
+```
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --scale node-app=2
+```

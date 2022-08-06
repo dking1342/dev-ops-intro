@@ -24,6 +24,7 @@ client.connect()
   .then(()=> console.log("redis connected"))
   .catch((err)=>console.log("redis error",err.message));
 
+app.enable("trust proxy");
 app.use(
   session({
     store: new store({client}),
