@@ -3,8 +3,14 @@ import './App.css'
 
 const App = () => {
 
-  const handleApi = () => {
-    console.log("click");
+  const handleApi = async () => {
+    try {
+      const response = await fetch("http://localhost:9000/api");
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
