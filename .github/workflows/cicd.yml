@@ -36,4 +36,5 @@ jobs:
       run: cd client && yarn install --immutable --immutable-cache --check-cache --ignore-engines && yarn run build
 
     - name: api
-      run: cd api && yarn install --immutable --immutable-cache --check-cache --ignore-engines && yarn run start
+      run: cd api && yarn install --immutable --immutable-cache --check-cache --ignore-engines
+      # run: cd api && yarn install --immutable --immutable-cache --check-cache --ignore-engines && yarn run start
