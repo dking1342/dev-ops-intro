@@ -23,12 +23,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js ${{ matrix.node-version }} for client
       if: ${{ github.ref == 'refs/heads/github-actions' }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         # cache: 'yarn'
+    - run: cd client
     - run: yarn install --immutable --immutable-cache --check-cache --ignore-engines
     - run: yarn run build
     # - run: yarn run preview
