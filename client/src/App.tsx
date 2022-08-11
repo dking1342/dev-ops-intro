@@ -2,6 +2,11 @@ import { Link } from 'react-router-dom'
 import './App.css'
 
 const App = () => {
+
+  const handleApi = () => {
+    console.log("click");
+  }
+
   return (
     <div className='App'>
       <div>
@@ -13,6 +18,9 @@ const App = () => {
         </a>
         <p>
           <Link to="/dashboard">Dashboard</Link>
+        </p>
+        <p>
+          <button onClick={handleApi}>API</button>
         </p>
       </div>
       <h1>Vite + React</h1>

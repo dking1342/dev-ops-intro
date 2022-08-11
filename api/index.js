@@ -5,10 +5,10 @@ const PORT = 5001;
 const app = express();
 app.use(cors());
 
-app.get("/", (req,res)=>{
+app.get("/api/", (req,res)=>{
   res.json({success:true, payload:"home"});
 });
-app.get("/dashboard",(req,res)=>{
+app.get("/api/dashboard",(req,res)=>{
   res.json({success:true, payload:"dashboard"});
 });
 
