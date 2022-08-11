@@ -31,4 +31,4 @@ jobs:
         # cache: 'yarn'
     - run: yarn install --immutable --immutable-cache --check-cache --ignore-engines
     - run: yarn run build
-    - run: yarn run preview
+    # - run: yarn run preview
