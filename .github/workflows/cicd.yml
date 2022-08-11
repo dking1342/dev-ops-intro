@@ -12,8 +12,8 @@ on:
       - github-actions
 
 jobs:
-  build:
-
+  client:
+    name: client actions
     runs-on: self-hosted
 
     strategy:
@@ -33,3 +33,24 @@ jobs:
     - run: yarn install --immutable --immutable-cache --check-cache --ignore-engines
     - run: yarn run build
     # - run: yarn run preview
+
+  api:
+    name: api actions
+        runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }} for client
+      if: ${{ github.ref == 'refs/heads/github-actions' }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        # cache: 'yarn'
+    - run: cd api
+    - run: yarn install --immutable --immutable-cache --check-cache --ignore-engines
+    - run: yarn run start
