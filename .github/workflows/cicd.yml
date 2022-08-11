@@ -33,9 +33,7 @@ jobs:
         # cache: 'yarn'
 
     - name: client
-      uses: actions/setup-node@v3
       run: cd client && yarn install --immutable --immutable-cache --check-cache --ignore-engines && yarn run build
 
     - name: api
-      uses: actions/setup-node@v3
       run: cd api && yarn install --immutable --immutable-cache --check-cache --ignore-engines && yarn run start
