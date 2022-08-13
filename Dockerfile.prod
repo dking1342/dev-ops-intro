@@ -1,0 +1,11 @@
+FROM node:16-alpine as production
+WORKDIR /app
+COPY package*.json .
+RUN yarn install
+COPY . .
+ARG NODE_ENV
+ENV NODE_ENV=${NODE_ENV}
+RUN yarn run build
+
+FROM nginx:latest
+COPY --from=production /app/dist /usr/share/nginx/html
