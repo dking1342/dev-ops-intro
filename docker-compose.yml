@@ -1,0 +1,11 @@
+version: '3.4'
+services:
+  demoweb:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - /tmp:/usr/share/nginx/html
+    deploy:
+      mode: replicated
+      replicas: 2
