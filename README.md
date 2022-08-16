@@ -144,3 +144,41 @@ docker stack rm <stack name>
 
 The swarm manager uses ingress load balancing to expose the services you want to make them available externally to the swarm. The ingress controller will do round robin by default.
 
+#### Docker Swarm config
+Swarm service configs allow you to store non-sensitive information such as configuration files in the cluster. There is a file size limitation so it can be a text file instead of a binary file. Any service can use this without the need to bind-mount configuration files into the containers or use the environment variables. The name of the file can have a conf extention.
+
+![Docker config](./assets/Docker-Swarm-Production-Environment-Reference-Diagram.png "Docker config")
+
+#### Set config file
+When you grant a newly created or running services access to a config the config is mounted as a file in the container. The location of the mount point within the container defaults to /<config-name> in Linux containers. In Windows containers, configs are all mounted into C:\ProgramData\Docker\configs. We can explicitly define the location using the target option:
+```
+docker config create <config name> <file>
+docker service create --name <service> --config src=<config name>, target=<path to file> -p 80:80 nginx
+```
+
+#### Get config file
+To get the config in the swarm use the command:
+```
+docker config ls
+```
+
+### Docker swarm health
+
+![Docker health check](./assets/docker-monitoring-architecture-1.jpeg "Docker health check")
+
+Checks to the health of the container and if it is running properly. First add this to the Dockerfile and then build the image.
+```
+HEALTHCHECK [OPTIONS] 
+CMD command
+
+docker build -t <image name> .
+```
+
+To see the health statistics and status use these commands:
+```
+docker inspect --format='{{json .State.Health}}' <container id>
+docker ps
+```
+
+Configure the health check using a compose file.
+

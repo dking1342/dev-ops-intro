@@ -9,3 +9,16 @@ services:
     deploy:
       mode: replicated
       replicas: 2
+    configs:
+      source: sample.config
+      target: /tmp/sample.conf
+      mode: 0755
+    healthcheck:
+      test: ["test", "arg"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+configs:
+  sample.conf:
+    external: true
