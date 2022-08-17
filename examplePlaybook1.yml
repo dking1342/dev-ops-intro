@@ -1,0 +1,8 @@
+---
+  - name: iluvnano
+    host: centos
+    tasks: 
+      - name: ensure nano is there
+        yum: 
+          name: nano
+          state: latest

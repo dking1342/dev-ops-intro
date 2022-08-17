@@ -1,0 +1,20 @@
+---
+  - name: play 1
+    hosts: webserver
+    tasks:
+      - name: install apache
+        yum: 
+          name: apache
+          state: present
+      - name: start apache
+        service: 
+          name: apache
+          state: start
+
+  - name: play2
+    hosts: databaseserver
+    tasks: 
+      - name: install MySQL
+        yum: 
+          name: MySQL
+          state: present
